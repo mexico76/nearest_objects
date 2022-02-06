@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>{% block title %} {% endblock %}</title>
+    {% block header %} {% endblock %}
+</head>
+<body>
+<a href="{% url 'load_csv' %}"> Load CSV</a><br>
+<a href="{% url 'map' %}"> Get object on the map</a><br>
+{% block content %} {% endblock %}
+</body>
+</html>
+{% block footer %} {% endblock %}

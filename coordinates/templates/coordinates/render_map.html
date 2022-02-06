@@ -1,0 +1,98 @@
+{% extends "main.html" %}
+
+{% block title %} Nearest objects on the map {% endblock %}
+{% block header %}
+<script src="https://api-maps.yandex.ru/2.1/?apikey={{ yandex_token }}&lang=ru_RU" type="text/javascript">
+</script>
+{% endblock %}
+
+
+
+
+{% block content %}
+<form method="post" enctype="application/json">
+{% csrf_token %}
+  {{ map_form.as_p }}
+  <input type="submit">
+</form><br>
+
+<!--{{address}}-->
+<!--<br>-->
+<!--<br>-->
+<!--{{radius}}-->
+<!--<br>-->
+<!--<br>-->
+<div id="map" style="width: 600px; height: 400px"></div>
+<!--{% for object in nearest_objects %}-->
+<!--    [{{object.geo_lat}}, {{object.geo_lon}}], -->
+<!--{% endfor %}-->
+
+{% endblock %}
+
+{% block footer %}
+<script type="text/javascript">
+    ymaps.ready(init);
+
+function init() {
+    // Создаем карту.
+    var myMap = new ymaps.Map("map", {
+            center: [{{address.geo_lat}}, {{address.geo_lon}}],
+            zoom: 7
+        }, {
+            searchControlProvider: 'yandex#search'
+        });
+
+    // Отметки объектов на карте
+        yellowCollection = new ymaps.GeoObjectCollection(null, {
+            preset: 'islands#yellowIcon'
+        });
+        blueCollection = new ymaps.GeoObjectCollection(null, {
+            preset: 'islands#blueIcon'
+        });
+        yellowCoords = [[{{address.geo_lat}}, {{address.geo_lon}}], ];
+        blueCoords = [
+                {% for object in nearest_objects %}
+                    [{{object.geo_lat}}, {{object.geo_lon}}],
+                {% endfor %}   ];
+
+        for (var i = 0, l = yellowCoords.length; i < l; i++) {
+            yellowCollection.add(new ymaps.Placemark(yellowCoords[i]));
+        };
+        for (var i = 0, l = blueCoords.length; i < l; i++) {
+            blueCollection.add(new ymaps.Placemark(blueCoords[i]));
+        };
+
+    // Создаем круг.
+    var myCircle = new ymaps.Circle([
+        // Координаты центра круга.
+        [{{address.geo_lat}}, {{address.geo_lon}}],
+        // Радиус круга в метрах.
+        ({{radius}}*1000)
+    ], {
+        // Описываем свойства круга.
+        // Содержимое балуна.
+        balloonContent: "Радиус круга - {{radius}} км",
+        // Содержимое хинта.
+    }, {
+        // Задаем опции круга.
+        // Включаем возможность перетаскивания круга.
+        draggable: false,
+        // Цвет заливки.
+        // Последний байт (77) определяет прозрачность.
+        // Прозрачность заливки также можно задать используя опцию "fillOpacity".
+        fillColor: "#6eff8330",
+        // Цвет обводки.
+        strokeColor: "#6eff83",
+        // Прозрачность обводки.
+        strokeOpacity: 0.5,
+        // Ширина обводки в пикселях.
+        strokeWidth: 3
+    });
+
+    // Добавляем круг на карту.
+    myMap.geoObjects.add(myCircle);
+    myMap.geoObjects.add(yellowCollection).add(blueCollection);
+}
+
+    </script>
+{% endblock %}

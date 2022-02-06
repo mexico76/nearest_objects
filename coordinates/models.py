@@ -1,0 +1,28 @@
+from django.db import models
+
+
+class Subjects(models.Model):
+    address = models.CharField(max_length=255)
+    postal_code = models.CharField(max_length=255)
+    country = models.CharField(max_length=255)
+    federal_district = models.CharField(max_length=255)
+    region_type = models.CharField(max_length=255)
+    region = models.CharField(max_length=255)
+    area_type = models.CharField(max_length=255)
+    area = models.CharField(max_length=255)
+    city_type = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+    settlement_type = models.CharField(max_length=255)
+    settlement = models.CharField(max_length=255)
+    kladr_id = models.CharField(max_length=255)
+    fias_id = models.CharField(max_length=255)
+    fias_level = models.CharField(max_length=255)
+    capital_marker = models.CharField(max_length=255)
+    okato = models.CharField(max_length=255)
+    oktmo = models.CharField(max_length=255)
+    tax_office = models.CharField(max_length=255)
+    timezone = models.CharField(max_length=255)
+    geo_lat = models.DecimalField(max_digits=9, decimal_places=6)
+    geo_lon = models.DecimalField(max_digits=9, decimal_places=6)
+    population = models.CharField(max_length=255)
+    foundation_year = models.CharField(max_length=255)
