@@ -1,5 +1,5 @@
 # nearest_objects
-** Для корректной работы небходимо в дирректории ./nearest_objects/ создать файл apis.py с переменными: **
+**Для корректной работы небходимо в дирректории ./nearest_objects/ создать файл apis.py с переменными:**
 #### YANDEX_API = "58457849_Ваш_API_ключ_от_яндекс_карт"
 #### DADA_T = "Ваш_Dadata_token"
 #### DADA_S = "Ваш_Dadata_secret"
